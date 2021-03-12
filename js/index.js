@@ -1,4 +1,4 @@
- // Get canvas context
+ // Get canvas context and get the center
  const canvas = document.querySelector('canvas');
  const ctx = canvas.getContext('2d');
  canvas.width = window.innerWidth;
@@ -8,9 +8,8 @@
 
 // Instance new player
 const player = new Player(x, y, 30, 'blue');
-player._draw();
 
-// Create projectile array when click on the screen where we click it
+// Create projectile array when click on the screen where we click it (get angle of the cursor)
 const projectiles = [];
 window.addEventListener('click', (event) => {
   const angle = Math.atan2(event.clientY - canvas.width / 2, event.clientX - canvas.width/2);
@@ -27,8 +26,17 @@ window.addEventListener('click', (event) => {
  ))
 })
 
+// Create enemies and spawn them towards player
+
+// Clean the screen
+function _clean(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 // Animate
 function animate(){
+  _clean();
+  player._draw();
   projectiles.forEach(projectile => projectile._update());
   window.requestAnimationFrame(animate);
 }
